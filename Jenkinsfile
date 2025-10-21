@@ -2,11 +2,11 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'nodejs' // đúng với cấu hình NodeJS bạn đã tạo
+    nodejs 'nodejs' // đúng với cấu hình NodeJS bạn đã tạo trong Jenkins
   }
 
   environment {
-    SONARQUBE = 'SonarScanner' // tên cấu hình SonarScanner trong Jenkins
+    SONARQUBE = 'SonarQube' // đúng với tên cấu hình SonarQube server trong Jenkins
   }
 
   stages {
