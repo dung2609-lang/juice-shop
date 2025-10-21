@@ -1,11 +1,14 @@
 pipeline {
   agent any
+
   tools {
-    nodejs 'NodeJS_20' // Tên NodeJS bạn đã cấu hình trong Jenkins
+    nodejs 'nodejs' // đúng với cấu hình NodeJS bạn đã tạo
   }
+
   environment {
-    SONARQUBE = 'SonarQube' // Tên cấu hình SonarQube trong Jenkins
+    SONARQUBE = 'SonarQube' // tên cấu hình SonarQube trong Jenkins
   }
+
   stages {
     stage('Checkout code') {
       steps {
@@ -21,7 +24,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        bat 'npm test || exit 0' // Bỏ qua lỗi test để không fail pipeline
+        bat 'npm test || exit 0' // bỏ qua lỗi test để không fail pipeline
       }
     }
 
