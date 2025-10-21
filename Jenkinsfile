@@ -57,7 +57,7 @@ pipeline {
 
     stage('DAST - OWASP ZAP') {
       steps {
-        bat 'zap-cli quick-scan --self-contained http://localhost:3000'
+        bat 'zap-cli quick-scan --self-contained https://demo.owasp-juice.shop'
       }
     }
   }
