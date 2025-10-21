@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'nodejs' // đúng với cấu hình NodeJS bạn đã tạo
+    nodejs 'nodejs' // đúng với cấu hình NodeJS bạn đã tạo trong Jenkins
   }
 
   stages {
@@ -20,7 +20,17 @@ pipeline {
 
     stage('SCA - Dependency Check') {
       steps {
-        bat 'C:\\DevSecOps\\dependency-check\\bin\\dependency-check.bat --project "JuiceShop" --scan . --format HTML --out reports'
+        bat '''
+          C:\\DevSecOps\\dependency-check\\bin\\dependency-check.bat ^
+          --project "JuiceShop" ^
+          --scan . ^
+          --format HTML ^
+          --out reports ^
+          --disableArchive ^
+          --disableOssIndex ^
+          --exclude "**/dist/**" ^
+          --exclude "**/ftp/**"
+        '''
         publishHTML([
           reportDir: 'reports',
           reportFiles: 'dependency-check-report.html',
