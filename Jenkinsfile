@@ -2,11 +2,12 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'nodejs' // đúng với cấu hình NodeJS bạn đã tạo trong Jenkins
+    nodejs 'nodejs' // đúng với cấu hình NodeJS bạn đã tạo
+    sonarScanner 'SonarScanner' // tên tool bạn đã cấu hình trong Jenkins
   }
 
   environment {
-    SONARQUBE = 'SonarQube' // đúng với tên cấu hình SonarQube server trong Jenkins
+    SONARQUBE = 'SonarQube' // tên cấu hình SonarQube server trong Jenkins
   }
 
   stages {
@@ -25,7 +26,10 @@ pipeline {
     stage('SAST - SonarQube') {
       steps {
         withSonarQubeEnv("${SONARQUBE}") {
-          bat '"C:\\DevSecOpsTools\\sonar-scanner\\bin\\sonar-scanner.bat" -Dsonar.projectKey=juice-shop -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000'
+          script {
+            def scannerHome = tool 'SonarScanner'
+            bat "${scannerHome}\\bin\\sonar-scanner.bat -Dsonar.projectKey=juice-shop -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000"
+          }
         }
       }
     }
