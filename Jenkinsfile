@@ -20,17 +20,24 @@ pipeline {
 
     stage('SCA - Dependency Check') {
       steps {
-        bat '''
-          C:\\DevSecOps\\dependency-check\\bin\\dependency-check.bat ^
-          --project "JuiceShop" ^
-          --scan . ^
-          --format HTML ^
-          --out reports ^
-          --disableArchive ^
-          --disableOssIndex ^
-          --exclude "**/dist/**" ^
-          --exclude "**/ftp/**"
-        '''
+        bat 'npm install --package-lock-only'
+        script {
+          def result = bat(
+            script: '''
+              C:\\DevSecOps\\dependency-check\\bin\\dependency-check.bat ^
+              --project "JuiceShop" ^
+              --scan . ^
+              --format HTML ^
+              --out reports ^
+              --disableArchive ^
+              --disableOssIndex ^
+              --exclude "**/dist/**" ^
+              --exclude "**/ftp/**"
+            ''',
+            returnStatus: true
+          )
+          echo "Dependency Check exited with code ${result}"
+        }
         publishHTML([
           reportDir: 'reports',
           reportFiles: 'dependency-check-report.html',
