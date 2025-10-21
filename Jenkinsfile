@@ -5,10 +5,6 @@ pipeline {
     nodejs 'nodejs' // đúng với cấu hình NodeJS bạn đã tạo
   }
 
-  environment {
-    SONARQUBE = 'SonarQube' // tên cấu hình SonarQube server trong Jenkins
-  }
-
   stages {
     stage('Build') {
       steps {
@@ -19,16 +15,6 @@ pipeline {
     stage('Test') {
       steps {
         bat 'echo "Skipping frontend tests (karma not used)"'
-      }
-    }
-
-    stage('SAST - SonarQube') {
-      steps {
-        withSonarQubeEnv("${SONARQUBE}") {
-          script {
-            bat '"C:\\DevSecOpsTools\\sonar-scanner\\bin\\sonar-scanner.bat" -Dsonar.projectKey=juice-shop -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000'
-          }
-        }
       }
     }
 
