@@ -2,20 +2,14 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'nodejs' // đúng với cấu hình NodeJS bạn đã tạo
+    nodejs 'nodejs'
   }
 
   environment {
-    SONARQUBE = 'SonarQube' // tên cấu hình SonarQube trong Jenkins
+    SONARQUBE = 'SonarQube'
   }
 
   stages {
-    stage('Checkout code') {
-      steps {
-        git 'https://github.com/dung2609-lang/juice-shop.git'
-      }
-    }
-
     stage('Build') {
       steps {
         bat 'npm install --legacy-peer-deps'
@@ -24,7 +18,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        bat 'npm test || exit 0' // bỏ qua lỗi test để không fail pipeline
+        bat 'npm test || exit 0'
       }
     }
 
